@@ -119,6 +119,39 @@
               >
             </b-row>
           </b-col>
+          <b-sidebar id="sidebar-right" right shadow>
+            <div class="px-3 py-2">
+              <p>@{{ item.username }}</p>
+              <b-img
+                left
+                :src="'http://localhost:3000/profile/' + item.photo"
+                alt="photo"
+              ></b-img>
+              <br />
+              <h4>{{ item.username }}</h4>
+              <br /><br />
+              <br />
+              <p>phone number</p>
+              <h4>{{ item.phone_number }}</h4>
+              <p>bio</p>
+              <h4>{{ item.bio }}</h4>
+              <div class="maps">
+                <GmapMap
+                  :center="coordinate"
+                  :zoom="10"
+                  map-type-id="roadmap"
+                  style="width: 250px; height: 170px"
+                >
+                  <GmapMarker
+                    :position="coordinate"
+                    :clickable="true"
+                    icon="https://img.icons8.com/color/48/000000/map-pin.png"
+                  />
+                </GmapMap>
+                <br /><br />
+              </div>
+            </div>
+          </b-sidebar>
         </b-row>
       </b-card>
     </div>
@@ -173,8 +206,8 @@
         </b-row>
       </b-modal>
     </div>
-    <div>
-      <b-sidebar id="sidebar-right" right shadow>
+    <!-- <div> -->
+    <!-- <b-sidebar id="sidebar-right" right shadow>
         <div class="px-3 py-2">
           <p>@nama orang</p>
           <b-img
@@ -206,8 +239,8 @@
             <br /><br />
           </div>
         </div>
-      </b-sidebar>
-    </div>
+      </b-sidebar> -->
+    <!-- </div> -->
   </div>
 </template>
 

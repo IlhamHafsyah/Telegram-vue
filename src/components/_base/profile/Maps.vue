@@ -23,8 +23,8 @@ export default {
   data() {
     return {
       coordinate: {
-        lat: 10,
-        lng: 10
+        lat: -10,
+        lng: 110
       }
     };
   },
