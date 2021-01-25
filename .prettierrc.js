@@ -1,6 +1,6 @@
 // module.exports = {
-//   singleQuote: true,
+//   singleQuote: true
 //   semi: false,
 //   trailingComma: 'none',
 //   endOfLine: 'auto'
-// }
+// };

@@ -1,7 +1,25 @@
 <template>
   <b-container class="bv-example-row">
+    <div>
+      <b-button v-b-toggle.sidebar-right>Toggle Sidebar</b-button>
+      <b-sidebar id="sidebar-right" title="Sidebar" right shadow>
+        <div class="px-3 py-2">
+          <p>
+            Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+            dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+            ac consectetur ac, vestibulum at eros.
+          </p>
+          <b-img
+            src="https://picsum.photos/500/500/?image=54"
+            fluid
+            thumbnail
+          ></b-img>
+        </div>
+      </b-sidebar>
+    </div>
+    <!-- ============================================================================================= -->
     <b-form-group>
-      <b-form-select class="mb-3">
+      <b-form-select class="mb-3" v-model="room" @change="selectRoom">
         <b-form-select-option :value="null"
           >Please select Room</b-form-select-option
         >
@@ -25,19 +43,118 @@
         <div class="chat">
           <div class="chat-window">
             <div class="output">
-              <p>
-                <strong>Bagus :</strong>
-                Hai
+              <p v-if="typing.isTyping">
+                <em>{{ typing.username }} is typing a message...</em>
+              </p>
+              <p v-for="(value, index) in messages" :key="index">
+                <strong>{{ value.username }} :</strong>
+                {{ value.message }}
               </p>
             </div>
           </div>
-          <input class="message" type="text" placeholder="Message" />
-          <button class="send">Send</button>
+          <input
+            class="message"
+            v-model="message"
+            type="text"
+            placeholder="Message"
+          />
+          <button class="send" @click="sendingMessage">Send</button>
         </div>
       </b-col>
     </b-row>
   </b-container>
 </template>
+
+<script>
+import io from "socket.io-client";
+
+export default {
+  name: "Chat",
+  data() {
+    return {
+      socket: io("http://localhost:3000"),
+      username: "",
+      message: "",
+      messages: [],
+      room: "",
+      oldroom: "",
+      typing: false
+    };
+  },
+  watch: {
+    message(value) {
+      // console.log(value);
+      value
+        ? this.socket.emit("typing", {
+            username: this.username,
+            room: this.room,
+            isTyping: true
+          })
+        : this.socket.emit("typing", {
+            room: this.room,
+            isTyping: false
+          });
+    }
+  },
+  created() {
+    if (!this.$route.params.username) {
+      this.$router.push("/");
+    } else {
+      this.username = this.$route.params.username;
+    }
+    // console.log(this.$route.params);
+    this.socket.on("chatMessage", data => {
+      this.messages.push(data);
+    });
+    this.socket.on("typingMessage", data => {
+      console.log(data);
+      this.typing = data;
+    });
+    // console.log(this.messages);
+  },
+  methods: {
+    sendingMessage() {
+      // const setData = {
+      //   username: this.username,
+      //   message: this.message
+      // };
+      // console.log(setData);
+      // this.socket.emit("globalMessage", setData);
+      // this.socket.emit("privateMessage", setData);
+      // this.socket.emit("broadcastMessage", setData);
+      //================================================
+      const setData = {
+        username: this.username,
+        message: this.message,
+        room: this.room
+      };
+      this.socket.emit("roomMessage", setData);
+      this.message = "";
+    },
+    selectRoom(data) {
+      console.log(data);
+      if (this.oldroom) {
+        console.log("pernah masuk room " + this.oldroom);
+        console.log("dan akan masuk ke room " + data);
+        this.socket.emit("changeRoom", {
+          username: this.username,
+          room: data,
+          oldroom: this.oldroom
+        });
+        this.oldroom = data;
+      } else {
+        console.log("belum pernah masuk ke manapun");
+        console.log("dan akan masuk ke room " + data);
+        this.socket.emit("joinRoom", {
+          username: this.username,
+          room: data
+        });
+        this.oldroom = data;
+      }
+    }
+  }
+};
+</script>
 
 <style scoped>
 .chat {
