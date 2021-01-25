@@ -121,20 +121,28 @@
           </b-col>
           <b-sidebar id="sidebar-right" right shadow>
             <div class="px-3 py-2">
-              <p>@{{ item.username }}</p>
+              <div class="nameat">
+                <p>@{{ item.username }}</p>
+              </div>
+
               <b-img
                 left
                 :src="'http://localhost:3000/profile/' + item.photo"
                 alt="photo"
               ></b-img>
               <br />
-              <h4>{{ item.username }}</h4>
-              <br /><br />
+              <div class="friendname">
+                <h5>{{ item.username }}</h5>
+              </div>
               <br />
-              <p>phone number</p>
-              <h4>{{ item.phone_number }}</h4>
-              <p>bio</p>
-              <h4>{{ item.bio }}</h4>
+              <div class="friendpn">
+                <p>phone number</p>
+                <h5>{{ item.phone_number }}</h5>
+              </div>
+              <div class="friendbio">
+                <p>bio</p>
+                <h5>{{ item.bio }}</h5>
+              </div>
               <div class="maps">
                 <GmapMap
                   :center="coordinate"
@@ -505,5 +513,42 @@ button {
 .cards .card {
   border: none;
   box-shadow: none;
+}
+
+.nameat p {
+  padding-left: 127px;
+  color: #697fb9;
+  font-weight: bold;
+}
+
+.friendname h5 {
+  padding-left: 35px;
+  color: rgb(34, 34, 34);
+  font-weight: bold;
+  font-size: 25px !important;
+}
+
+.friendpn p {
+  font-family: "Rubik", sans-serif;
+  color: grey;
+}
+
+.friendpn h5 {
+  font-family: "Rubik", sans-serif;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 20px !important;
+}
+
+.friendbio p {
+  font-family: "Rubik", sans-serif;
+  color: grey;
+}
+
+.friendbio h5 {
+  font-family: "Rubik", sans-serif;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 20px !important;
 }
 </style>
