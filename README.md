@@ -7,7 +7,7 @@
     <a href="https://github.com/IlhamHafsyah/Coffee-Brick_Frontend">Request Feature</a>
   </p>
 
-![Image Banner](https://raw.githubusercontent.com/IlhamHafsyah/Coffee-Brick_Frontend/master/banners.png)
+![Image Banner](https://raw.githubusercontent.com/IlhamHafsyah/Telegram-vue/main/telegramBanner.png)
 
 ## About The Project
 
