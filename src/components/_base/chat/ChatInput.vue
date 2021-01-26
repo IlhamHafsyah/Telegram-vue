@@ -11,12 +11,30 @@
           ></b-form-textarea>
         </b-form-group>
       </b-col>
-      <b-col cols="1"
-        ><button><img src="../../../assets/Plus.png" alt="" /></button
+      <b-col cols="1">
+        <button class="send" @click="sendingMessage">Send</button>
+        <button><img src="../../../assets/Plus.png" alt="" /></button
       ></b-col>
     </b-row>
   </div>
 </template>
+
+<script>
+export default {
+  name: "Chat",
+  data() {
+    return {
+      // socket: io("http://localhost:3000"),
+      username: "",
+      message: "",
+      messages: [],
+      room: "",
+      oldroom: "",
+      typing: false
+    };
+  }
+};
+</script>
 
 <style>
 .chatInput {

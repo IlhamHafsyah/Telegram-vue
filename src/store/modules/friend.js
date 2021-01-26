@@ -35,6 +35,20 @@ export default {
             reject(error.response);
           });
       });
+    },
+    deleteContact(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(
+            `http://localhost:3000/friend?user_id=${payload.user_id}&friend_email=${payload.friend_email}`
+          )
+          .then(result => {
+            resolve(result);
+          })
+          .catch(error => {
+            reject(error.response);
+          });
+      });
     }
   },
   getters: {

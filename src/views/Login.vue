@@ -37,7 +37,10 @@
             <img src="../assets/google telegram.png" alt="" /> Google</b-button
           >
           <br /><br />
-          <h6>Don't have an account ? <a href="">Sign up</a></h6>
+          <h6>
+            Don't have an account ?
+            <a href="http://localhost:8080/register">Sign up</a>
+          </h6>
         </b-form>
       </div>
     </b-card>

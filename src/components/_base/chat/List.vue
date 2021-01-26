@@ -109,7 +109,7 @@
               <b-col cols="12">
                 <div class="name">
                   <!-- name -->
-                  {{ item.username }}
+                  <p @click="getMessages(item.id_room)">{{ item.username }}</p>
                 </div></b-col
               >
               <b-col cols="12"
@@ -211,6 +211,9 @@
               </div>
             </b-col>
           </b-card>
+          <button class="deleteC" @click="deleteCont(item.friend_email)">
+            delete
+          </button>
         </b-row>
       </b-modal>
     </div>
@@ -286,7 +289,7 @@ export default {
       });
   },
   computed: {
-    ...mapGetters(["getUserData", "getContacts", "getRooms"])
+    ...mapGetters(["getUserData", "getContacts", "getRooms", "getMsg"])
   },
   components: {
     // Card
@@ -297,7 +300,9 @@ export default {
       "getContact",
       "joinRooms",
       "getRoom",
-      "logout"
+      "logout",
+      "deleteContact",
+      "getMessage"
     ]),
 
     checkFormValidity() {
@@ -354,6 +359,24 @@ export default {
         .catch(error => {
           return this.$swal("warning", `${error.data.msg}`, "error");
         });
+    },
+    deleteCont(email) {
+      console.log(email);
+      const dataDel = {
+        user_id: this.getUserData.user_id,
+        friend_email: email
+      };
+      console.log(dataDel);
+      this.deleteContact(dataDel)
+        .then(result => {
+          return this.$swal("Success!", `${result.data.msg}`, "success");
+        })
+        .catch(error => {
+          return this.$swal("warning", `${error.data.msg}`, "error");
+        });
+    },
+    getMessages(id_room) {
+      this.getMessage(id_room);
     },
     toProfile() {
       this.$router.push("/profile");
@@ -488,10 +511,10 @@ button {
   margin-left: 15px;
 }
 
-.name {
+.name p {
   padding-left: 50px;
   text-align: left;
-  padding-top: 10px;
+  padding-top: 22px;
   font-family: "Rubik", sans-serif;
   font-weight: bold;
   font-size: 25px;
@@ -500,10 +523,10 @@ button {
 .msg {
   padding-left: 50px;
   text-align: left;
-  padding-top: 10px;
+  margin-top: -10px;
   font-family: "Rubik", sans-serif;
   color: #7e98df;
-  font-size: 20px;
+  font-size: 15px;
 }
 
 .cards .card-body {
@@ -550,5 +573,9 @@ button {
   color: rgb(0, 0, 0);
   font-weight: bold;
   font-size: 20px !important;
+}
+
+.deleteC button {
+  color: #697fb9;
 }
 </style>
