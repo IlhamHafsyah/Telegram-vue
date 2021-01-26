@@ -14,7 +14,7 @@ export default {
     getMessage(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`http://localhost:3000/message?id_room=${payload}`)
+          .get(`process.env.VUE_APP_API/message?id_room=${payload}`)
           .then(result => {
             context.commit("setMessage", result.data.data);
             resolve(result);
@@ -27,7 +27,7 @@ export default {
     sendMessage(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post("http://localhost:3000/message", payload)
+          .post("process.env.VUE_APP_API/message", payload)
           .then(result => {
             console.log(result);
             resolve(result);

@@ -9,6 +9,11 @@ import VueSweetalert2 from "vue-sweetalert2";
 import * as VueGoogleMaps from "vue2-google-maps";
 import VueGeolocation from "vue-browser-geolocation";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+process.env.VUE_APP_API;
+
 Vue.use(VueGeolocation);
 
 Vue.use(VueSweetalert2);
@@ -19,7 +24,7 @@ Vue.use(IconsPlugin);
 Vue.config.productionTip = false;
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyB4XjKc5vxaK0JUDGn56KaOG_NSKlk0q3o",
+    key: process.env.VUE_APP_KEY,
     libraries: "places"
   }
 });
