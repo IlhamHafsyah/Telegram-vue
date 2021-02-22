@@ -4,7 +4,7 @@
       :center="coordinate"
       :zoom="10"
       map-type-id="roadmap"
-      style="width: 360px; height: 200px"
+      style="width: 345px; height: 200px"
     >
       <GmapMarker
         :position="coordinate"

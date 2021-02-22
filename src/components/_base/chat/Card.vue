@@ -6,7 +6,7 @@
           <b-card>
             <b-img
               left
-              src="'http://localhost:3000/profile/' + item.photo"
+              :src="'http://localhost:3000/profile/' + item.photo"
               alt="photo"
             ></b-img>
           </b-card>

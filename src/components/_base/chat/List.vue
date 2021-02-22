@@ -4,7 +4,7 @@
       <b-col cols="9">
         <h4>Telegram</h4>
       </b-col>
-      <b-col cols="3">
+      <b-col cols="3" style="padding-left: 23px">
         <div class="drop">
           <b-dropdown
             id="dropdown-1"
@@ -96,12 +96,21 @@
         <b-row v-for="(item, index) in getRooms" :key="index">
           <b-col cols="3">
             <div class="photo">
-              <b-img
+              <img
+                v-if="item.photo"
                 v-b-toggle.sidebar-right
                 left
                 :src="'http://localhost:3000/profile/' + item.photo"
                 alt="photo"
-              ></b-img>
+                style="width: 60px; height: 60px; margin: 12px 12px"
+              />
+              <img
+                v-else
+                v-b-toggle.sidebar-right
+                src="../../../assets/pict_default.jpg"
+                alt=""
+                style="width: 60px; height: 60px; margin: 12px 12px"
+              />
             </div>
           </b-col>
           <b-col cols="9">
@@ -121,15 +130,19 @@
           </b-col>
           <b-sidebar id="sidebar-right" right shadow>
             <div class="px-3 py-2">
-              <div class="nameat">
-                <p>@{{ item.username }}</p>
-              </div>
-
-              <b-img
+              <img
+                v-if="item.photo"
                 left
                 :src="'http://localhost:3000/profile/' + item.photo"
+                style="width: 80px; height: 80px; margin: 12px 12px; border-radius: 20px"
                 alt="photo"
-              ></b-img>
+              />
+              <img
+                v-else
+                src="../../../assets/pict_default.jpg"
+                alt=""
+                style="width: 80px; height: 80px; margin: 12px 12px; border-radius: 20px"
+              />
               <br />
               <div class="friendname">
                 <h5>{{ item.username }}</h5>
@@ -137,18 +150,21 @@
               <br />
               <div class="friendpn">
                 <p>phone number</p>
+                <!-- <h5>0233212389</h5> -->
                 <h5>{{ item.phone_number }}</h5>
               </div>
               <div class="friendbio">
                 <p>bio</p>
+                <!-- <h5>alhamdulillah bro gokil asik ahayy mantep dahh</h5> -->
                 <h5>{{ item.bio }}</h5>
               </div>
+              <br />
               <div class="maps">
                 <GmapMap
                   :center="coordinate"
                   :zoom="10"
                   map-type-id="roadmap"
-                  style="width: 250px; height: 170px"
+                  style="width: 230px; height: 170px"
                 >
                   <GmapMarker
                     :position="coordinate"
@@ -422,7 +438,8 @@ button {
   background-color: rgba(255, 255, 255, 0);
 }
 
-.drop .dropdown-toggle select {
+.drop .dropdown-toggle::after {
+  display: none;
   appearance: none;
 }
 
@@ -470,7 +487,6 @@ button {
 
 .card {
   width: 100%;
-  box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.205);
   border-radius: 30px;
 }
 
@@ -492,38 +508,39 @@ button {
   color: #697fb9;
 }
 
-.cards .photo {
-  padding-left: 5px;
-}
-
 .cards .photo img {
-  width: 100px;
-  height: 100px;
-  background-size: cover;
-  border-radius: 20px;
-  box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.205);
+  /* width: 100px;
+  height: 100px; */
+  border-radius: 10px;
+  /* box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.205); */
 }
 
-.cards .photo .card {
-  width: 100px;
+/* .card {
+  border: #697fb9 !important;
+} */
+
+.cards .card-body {
+  padding: 0 15px;
+}
+/* .cards .photo .card {
+  width: 90px;
   height: 100px;
   border-radius: 20px;
   margin-left: 15px;
-}
+} */
 
 .name p {
-  padding-left: 50px;
+  /* padding-left: 50px; */
   text-align: left;
-  padding-top: 22px;
+  padding-top: 17px;
   font-family: "Rubik", sans-serif;
   font-weight: bold;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .msg {
-  padding-left: 50px;
   text-align: left;
-  margin-top: -10px;
+  margin-top: -15px;
   font-family: "Rubik", sans-serif;
   color: #7e98df;
   font-size: 15px;
@@ -534,8 +551,7 @@ button {
 }
 
 .cards .card {
-  border: none;
-  box-shadow: none;
+  border-color: #7e98df;
 }
 
 .nameat p {
@@ -545,7 +561,7 @@ button {
 }
 
 .friendname h5 {
-  padding-left: 35px;
+  text-align: center;
   color: rgb(34, 34, 34);
   font-weight: bold;
   font-size: 25px !important;
@@ -553,25 +569,25 @@ button {
 
 .friendpn p {
   font-family: "Rubik", sans-serif;
-  color: grey;
+  color: rgb(128, 128, 128);
+  margin-bottom: 0;
 }
 
 .friendpn h5 {
   font-family: "Rubik", sans-serif;
   color: rgb(0, 0, 0);
-  font-weight: bold;
   font-size: 20px !important;
 }
 
 .friendbio p {
   font-family: "Rubik", sans-serif;
-  color: grey;
+  color: rgb(128, 128, 128);
+  margin-bottom: 0;
 }
 
 .friendbio h5 {
   font-family: "Rubik", sans-serif;
   color: rgb(0, 0, 0);
-  font-weight: bold;
   font-size: 20px !important;
 }
 

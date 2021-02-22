@@ -7,7 +7,7 @@
             id="textarea"
             placeholder="Type your message..."
             rows="1"
-            max-rows="6"
+            max-rows="5"
           ></b-form-textarea>
         </b-form-group>
       </b-col>

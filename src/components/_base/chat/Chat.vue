@@ -1,14 +1,18 @@
 <template>
   <div class="chat">
     <b-row v-for="(item, index) in getRooms" :key="index">
-      <b-col cols="3">
-        <b-img
+      <b-col cols="2">
+        <img
+          v-if="item.photo"
           left
           :src="'http://localhost:3000/profile/' + item.photo"
           alt="photo"
-        ></b-img>
+        />
+        <div v-else>
+          <img src="../../../assets/pict_default.jpg" alt="" />
+        </div>
       </b-col>
-      <b-col cols="9">
+      <b-col cols="10" style="width: 200px">
         <h4>{{ item.username }}</h4>
         <p>online</p>
       </b-col>
@@ -18,31 +22,45 @@
       <b-col cols="11">
         <div class="chats">
           <div class="chat-window">
-            <div class="output">
+            <div class="output" v-for="(item, index) in getMsg" :key="index">
               <!-- <p>
                 <em> is typing a message...</em>
               </p> -->
-              <p v-for="(item, index) in getMsg" :key="index">
-                <strong>{{ item.username }} :</strong>
-                {{ item.message }}
-              </p>
+              <div class="left" v-if="item.sender_id == getUserData.user_id">
+                <p>
+                  <strong>{{ item.username }}</strong> <br />
+                  {{ item.message }}
+                </p>
+              </div>
+              <div class="right" v-else>
+                <p>
+                  <strong>{{ item.username }}</strong> <br />
+                  {{ item.message }}
+                </p>
+              </div>
             </div>
           </div>
           <!-- <input class="message" type="text" placeholder="Message" />
           <button class="send" @click="sendingMessage">Send</button> -->
         </div>
         <b-form-group id="input-group-1" label="" label-for="input-3">
-          <b-form-textarea
+          <b-form-input
             id="textarea"
             placeholder="Type your message..."
             v-model="message"
             rows="1"
             max-rows="6"
-          ></b-form-textarea>
+          ></b-form-input>
         </b-form-group>
       </b-col>
       <b-col cols="1">
-        <button class="send" @click="sending">Send</button>
+        <button class="send" @click="sending">
+          <img
+            src="../../../assets/send.png"
+            alt=""
+            style="width: 37px; height: 37px"
+          />
+        </button>
         <!-- <button><img src="../../../assets/Plus.png" alt="" /></button> -->
       </b-col>
     </b-row>
@@ -98,39 +116,94 @@ export default {
   width: 800px;
 }
 
-.chat .row {
-  padding-top: 20px;
+.row {
+  display: flex;
+  margin-right: 0px !important;
+  flex-wrap: wrap;
+  margin-left: -15px;
 }
 
-.chat .row img {
-  padding-right: 0;
+.chat .row {
+  padding-top: 20px;
+  /* margin-right: 0px !important; */
+}
+
+.chat img {
   width: 50px;
   height: 50px;
   border-radius: 10px;
 }
 
-.chat .row h4 {
+/* .chat .col-9 h4 {
   text-align: left;
   font-family: "Rubik", sans-serif;
   color: cornflowerblue;
-}
+} */
 
 .chats {
-  height: 440px;
+  height: 455px;
 }
 
 .col-1 {
-  padding-top: 440px;
+  padding-top: 453px;
   padding-right: 25px;
 }
 
-.chat .col-9 h4 {
+.chat .col-10 h4 {
+  text-align: left;
   font-weight: bold;
   color: black;
   padding-top: 15px;
-  padding-right: 70px;
+  font-family: "Rubik", sans-serif;
   padding-bottom: 0;
   line-height: 0;
+}
+
+.chat .col-10 p {
+  text-align: left;
+  color: black;
+  font-family: "Rubik", sans-serif;
+}
+
+.chat .output .left {
+  margin-bottom: 5px;
+  margin-left: 500px;
+  padding: 20px 20px 5px 20px;
+  color: white;
+  max-width: 300px;
+  font-family: "Poppins", sans-serif;
+  background: rgb(76, 166, 240);
+  border-radius: 30px 30px 5px 30px;
+}
+
+.chat .output .right {
+  margin-bottom: 5px;
+  padding: 20px 20px 5px 20px;
+  color: white;
+  max-width: 300px;
+  font-family: "Poppins", sans-serif;
+  background: #7e98df;
+  border-radius: 30px 30px 30px 5px;
+}
+
+.chat .chat-window {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 460px;
+}
+
+.chat-window::-webkit-scrollbar {
+  width: 0px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgb(255, 255, 255);
+  border-radius: 10px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+  background: #7e98df;
+  border-radius: 10px;
 }
 /* .chat .row {
   height: 552px;

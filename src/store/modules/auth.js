@@ -22,7 +22,7 @@ export default {
     register(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post("process.env.VUE_APP_API/auth/register", payload)
+          .post(`${process.env.VUE_APP_API}/auth/register`, payload)
           .then(result => {
             resolve(result);
             router.push("/");
@@ -35,7 +35,7 @@ export default {
     login(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post("process.env.VUE_APP_API/auth/login", payload)
+          .post(`${process.env.VUE_APP_API}/auth/login`, payload)
           .then(result => {
             context.commit("setUser", result.data.data);
             localStorage.setItem("token", result.data.data.token);

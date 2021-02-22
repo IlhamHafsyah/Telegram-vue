@@ -39,7 +39,7 @@
           <br /><br />
           <h6>
             Don't have an account ?
-            <a href="http://localhost:8080/register">Sign up</a>
+            <a @click="toRegister()">Sign up</a>
           </h6>
         </b-form>
       </div>
@@ -64,6 +64,9 @@ export default {
       }
     };
   },
+  created() {
+    console.log(process.env.VUE_APP_API);
+  },
   methods: {
     ...mapActions(["login"]),
     loginIn() {
@@ -79,6 +82,9 @@ export default {
             return this.$swal("warning", `${error.data.msg}`, "error");
           });
       }
+    },
+    toRegister() {
+      this.$router.push("/register");
     }
   }
 };
