@@ -81,35 +81,36 @@ export default {
       typing: false
     };
   },
-  watch: {
-    message(value) {
-      // console.log(value);
-      value
-        ? this.socket.emit("typing", {
-            username: this.username,
-            room: this.room,
-            isTyping: true
-          })
-        : this.socket.emit("typing", {
-            room: this.room,
-            isTyping: false
-          });
-    }
-  },
+  // watch: {
+  //   message(value) {
+  //     // console.log(value);
+  //     value
+  //       ? this.socket.emit("typing", {
+  //           username: this.username,
+  //           room: this.room,
+  //           isTyping: true
+  //         })
+  //       : this.socket.emit("typing", {
+  //           room: this.room,
+  //           isTyping: false
+  //         });
+  //   }
+  // },
   created() {
-    if (!this.$route.params.username) {
-      this.$router.push("/");
-    } else {
-      this.username = this.$route.params.username;
-    }
+    // if (!this.$route.params.username) {
+    //   this.$router.push("/");
+    // } else {
+    //   this.username = this.$route.params.username;
+    // }
     // console.log(this.$route.params);
     this.socket.on("chatMessage", data => {
+      console.log(data);
       this.messages.push(data);
     });
-    this.socket.on("typingMessage", data => {
-      console.log(data);
-      this.typing = data;
-    });
+    // this.socket.on("typingMessage", data => {
+    //   console.log(data);
+    //   this.typing = data;
+    // });
     // console.log(this.messages);
   },
   methods: {

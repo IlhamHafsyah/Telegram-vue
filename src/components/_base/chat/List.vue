@@ -89,15 +89,23 @@
       </b-col>
     </b-row>
     <br />
-    <!-- <b-card> -->
-    <!-- <Card /> -->
     <div class="cards">
       <b-card>
-        <b-row v-for="(item, index) in getRooms" :key="index">
+        <b-row
+          v-for="(item, index) in getRooms"
+          :key="index"
+          style="background-color: #a6b7e042; margin-bottom: 1px; border-radius: 5px;"
+        >
           <b-col cols="3">
             <div class="photo">
               <img
-                v-if="item.photo"
+                v-if="item.photo.length < 16"
+                class="default"
+                src="../../../assets/pict_default.jpg"
+                style="width: 60px; height: 60px; margin: 12px 12px"
+              />
+              <img
+                v-else-if="item.photo"
                 v-b-toggle.sidebar-right
                 left
                 :src="'http://localhost:3000/profile/' + item.photo"
@@ -117,15 +125,26 @@
             <b-row>
               <b-col cols="12">
                 <div class="name">
-                  <!-- name -->
-                  <p @click="getMessages(item.id_room)">{{ item.username }}</p>
+                  <p @click="getMessages(item.id_room, item.user_b)">
+                    {{ item.username }}
+                  </p>
                 </div></b-col
               >
               <b-col cols="12"
                 ><div class="msg">
-                  Message
-                </div></b-col
+                  <!-- <p>{{ item }}</p> -->
+                  <p v-if="getMsg.length > 0">
+                    {{ getMsg[getMsg.length - 1].message.substring(0, 30) }}...
+                  </p>
+                  <p v-else></p></div
+              ></b-col>
+              <h6
+                v-if="getNotif > 0"
+                style="width: 15px; height: 15px; margin-top: -33px; padding-top: 1px; margin-left: 240px; color: white; background-color: #5c83f0; border-radius: 20px"
               >
+                {{ getNotif }}
+              </h6>
+              <h6 v-else></h6>
             </b-row>
           </b-col>
           <b-sidebar id="sidebar-right" right shadow>
@@ -150,15 +169,15 @@
               <br />
               <div class="friendpn">
                 <p>phone number</p>
-                <!-- <h5>0233212389</h5> -->
                 <h5>{{ item.phone_number }}</h5>
               </div>
+              <br />
               <div class="friendbio">
                 <p>bio</p>
-                <!-- <h5>alhamdulillah bro gokil asik ahayy mantep dahh</h5> -->
                 <h5>{{ item.bio }}</h5>
               </div>
               <br />
+              <p style="color: grey">Location</p>
               <div class="maps">
                 <GmapMap
                   :center="coordinate"
@@ -179,9 +198,6 @@
         </b-row>
       </b-card>
     </div>
-    <!-- </b-card> -->
-    <!-- <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button> -->
-
     <b-modal
       id="modal-prevent-closing"
       ref="modal"
@@ -218,7 +234,6 @@
                   alt="photo"
                   class="list-photo"
                 ></b-img>
-                <!-- <img src="../../../assets/pict_default.jpg"  /> -->
               </div>
             </b-col>
             <b-col cols="9">
@@ -227,62 +242,29 @@
               </div>
             </b-col>
           </b-card>
-          <button class="deleteC" @click="deleteCont(item.friend_email)">
+          <!-- <button class="deleteC" @click="deleteCont(item.friend_email)">
             delete
-          </button>
+          </button> -->
         </b-row>
       </b-modal>
     </div>
-    <!-- <div> -->
-    <!-- <b-sidebar id="sidebar-right" right shadow>
-        <div class="px-3 py-2">
-          <p>@nama orang</p>
-          <b-img
-            left
-            src="'http://localhost:3000/profile/' + getUserProfile[0].photo"
-            alt="photo"
-          ></b-img>
-          <br />
-          <h4>username</h4>
-          <br /><br />
-          <br />
-          <p>phone number</p>
-          <h4>08123213123</h4>
-          <p>bio</p>
-          <h4>Available</h4>
-          <div class="maps">
-            <GmapMap
-              :center="coordinate"
-              :zoom="10"
-              map-type-id="roadmap"
-              style="width: 250px; height: 170px"
-            >
-              <GmapMarker
-                :position="coordinate"
-                :clickable="true"
-                icon="https://img.icons8.com/color/48/000000/map-pin.png"
-              />
-            </GmapMap>
-            <br /><br />
-          </div>
-        </div>
-      </b-sidebar> -->
-    <!-- </div> -->
   </div>
 </template>
 
 <script>
-// import Card from "../../_base/chat/Card";
-import { mapGetters, mapActions } from "vuex";
+import io from "socket.io-client";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
   name: "List",
   data() {
     return {
+      socket: io("http://localhost:3000"),
       name: "",
       nameState: null,
       results: "",
       user_b: "",
+      oldroom: "",
       coordinate: {
         lat: -10,
         lng: 110
@@ -290,8 +272,11 @@ export default {
     };
   },
   created() {
-    this.getContact(this.getUserData.user_id);
+    this.socket.on("chatMessage", data => {
+      this.addMessage(data);
+    });
     this.getRoom(this.getUserData.user_id);
+    this.getContact(this.getUserData.user_id);
     this.$getLocation()
       .then(coordinates => {
         this.coordinate = {
@@ -303,13 +288,23 @@ export default {
       .catch(error => {
         alert(error);
       });
+    const notData = {
+      receiver_id: this.getUserData.user_id,
+      sender_id: this.getUserB
+    };
+    this.countNotif(notData);
   },
   computed: {
-    ...mapGetters(["getUserData", "getContacts", "getRooms", "getMsg"])
+    ...mapGetters([
+      "getUserData",
+      "getContacts",
+      "getRooms",
+      "getMsg",
+      "getNotif",
+      "getUserB"
+    ])
   },
-  components: {
-    // Card
-  },
+  components: {},
   methods: {
     ...mapActions([
       "addContacts",
@@ -318,8 +313,10 @@ export default {
       "getRoom",
       "logout",
       "deleteContact",
-      "getMessage"
+      "getMessage",
+      "countNotif"
     ]),
+    ...mapMutations(["setNotif", "addMessage", "setSend"]),
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
@@ -391,25 +388,38 @@ export default {
           return this.$swal("warning", `${error.data.msg}`, "error");
         });
     },
-    getMessages(id_room) {
-      this.getMessage(id_room);
+    getMessages(room, user_b) {
+      if (this.oldroom) {
+        this.socket.emit("changeRoom", {
+          room: room,
+          oldroom: this.oldroom
+        });
+        this.oldroom = room;
+      } else {
+        this.socket.emit("joinRoom", {
+          room: room
+        });
+        this.oldroom = room;
+      }
+      const data = {
+        id_room: room,
+        receiver_id: this.getUserData.user_id
+      };
+      const dataSend = {
+        id_room: room,
+        receiver_id: this.getUserData.user_id,
+        sender_id: user_b
+      };
+      this.setSend(dataSend);
+      this.getMessage(data);
+      this.setNotif(0);
     },
     toProfile() {
       this.$router.push("/profile");
     },
     toLogout() {
-      this.logout();
+      this.logout(this.getUserData.user_id);
     }
-    // clickMarker(pos) {
-    //   console.log("jalan");
-    //   console.log(pos);
-    //   console.log(pos.latLng.lat());
-    //   console.log(pos.latLng.lng());
-    //   this.coordinate = {
-    //     lat: pos.latLng.lat(),
-    //     lng: pos.latLng.lng()
-    //   };
-    // }
   }
 };
 </script>
@@ -504,33 +514,22 @@ button {
   padding-left: 70px;
   margin-left: 70px;
   margin-top: 30px;
-  /* margin: 8% auto; */
   color: #697fb9;
 }
 
-.cards .photo img {
-  /* width: 100px;
-  height: 100px; */
-  border-radius: 10px;
-  /* box-shadow: 0px 20px 20px rgba(126, 152, 223, 0.205); */
+.contlist .card-body {
+  padding: 5px;
 }
 
-/* .card {
-  border: #697fb9 !important;
-} */
+.cards .photo img {
+  border-radius: 10px;
+}
 
 .cards .card-body {
   padding: 0 15px;
 }
-/* .cards .photo .card {
-  width: 90px;
-  height: 100px;
-  border-radius: 20px;
-  margin-left: 15px;
-} */
 
 .name p {
-  /* padding-left: 50px; */
   text-align: left;
   padding-top: 17px;
   font-family: "Rubik", sans-serif;
@@ -542,7 +541,7 @@ button {
   text-align: left;
   margin-top: -15px;
   font-family: "Rubik", sans-serif;
-  color: #7e98df;
+  color: #4a67b6;
   font-size: 15px;
 }
 
@@ -551,7 +550,7 @@ button {
 }
 
 .cards .card {
-  border-color: #7e98df;
+  border-color: #7e98df00;
 }
 
 .nameat p {
@@ -574,9 +573,10 @@ button {
 }
 
 .friendpn h5 {
+  text-align: center;
   font-family: "Rubik", sans-serif;
-  color: rgb(0, 0, 0);
-  font-size: 20px !important;
+  color: #697fb9;
+  font-size: 15px !important;
 }
 
 .friendbio p {
@@ -586,12 +586,18 @@ button {
 }
 
 .friendbio h5 {
+  text-align: center;
   font-family: "Rubik", sans-serif;
-  color: rgb(0, 0, 0);
-  font-size: 20px !important;
+  color: #697fb9;
+  font-size: 15px !important;
 }
 
 .deleteC button {
   color: #697fb9;
+}
+
+.btn-primary {
+  background-color: #697fb9 !important;
+  border-color: rgba(255, 255, 255, 0) !important;
 }
 </style>

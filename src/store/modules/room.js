@@ -2,12 +2,15 @@ import axios from "axios";
 
 export default {
   state: {
-    room: {}
+    room: {},
+    userB: ""
   },
   mutations: {
     setRoom(state, payload) {
       state.room = payload;
-      console.log(state.room);
+    },
+    setUserB(state, payload) {
+      state.userB = payload;
     }
   },
   actions: {
@@ -31,6 +34,7 @@ export default {
           .get(`${process.env.VUE_APP_API}/room?user_a=${payload}`)
           .then(result => {
             context.commit("setRoom", result.data.data);
+            context.commit("setUserB", result.data.data[0].user_b);
             resolve(result);
           })
           .catch(error => {
@@ -42,6 +46,9 @@ export default {
   getters: {
     getRooms(state) {
       return state.room;
+    },
+    getUserB(state) {
+      return state.userB;
     }
   }
 };

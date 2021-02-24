@@ -16,10 +16,17 @@
         </p> -->
       </b-col>
     </b-row>
+    <!-- <p>{{ getUserProfile[0].photo }}</p> -->
     <img
       v-if="url"
       :src="url"
       alt=""
+      style="width: 100px; height: 100px; border-radius: 20px; margin-left: 10px"
+    />
+    <img
+      v-else-if="getUserProfile[0].photo.length < 16"
+      class="default"
+      src="../../../assets/pict_default.jpg"
       style="width: 100px; height: 100px; border-radius: 20px; margin-left: 10px"
     />
     <img
@@ -29,18 +36,31 @@
       alt="photo"
       style="width: 100px; height: 100px; border-radius: 20px; margin-left: 10px"
     />
-    <div v-else>
-      <img
-        class="default"
-        src="../../../assets/pict_default.jpg"
-        style="width: 100px; height: 100px; border-radius: 20px; margin-left: 10px"
-      />
-    </div>
+    <img
+      v-else
+      class="default"
+      src="../../../assets/pict_default.jpg"
+      style="width: 100px; height: 100px; border-radius: 20px; margin-left: 10px"
+    />
     <br />
     <input type="file" id="file" @change="handleFile" />
-    <label for="file" style="margin-left: 10px">
+    <label for="file" style="margin-left: 70px;">
       Edit
     </label>
+    <button
+      style="background-color: #ffffff00;"
+      v-if="getUserProfile[0].photo.length < 16"
+    >
+      .
+    </button>
+    <button
+      v-else
+      @click="deleteImage"
+      style="background-color: #ffffff00; position: relative; top: -105px; left: 0px"
+    >
+      <img style="width: 40%" src="../../../assets/delete-sign.png" alt="" />
+    </button>
+
     <br />
     <h4>{{ getUserProfile[0].username }}</h4>
     <br />
@@ -150,6 +170,9 @@ export default {
     },
     toList() {
       this.$router.push("/chatlist");
+    },
+    deleteImage() {
+      this.getUserProfile[0].photo = "";
     }
   }
 };

@@ -47,9 +47,19 @@ export default {
           });
       });
     },
-    logout(context) {
-      localStorage.removeItem("token");
-      context.commit("delDataUser");
+    logout(context, payload) {
+      return new Promise((resolve, reject) => {
+        axios
+          .patch(`${process.env.VUE_APP_API}/auth/status/${payload}`)
+          .then(result => {
+            resolve(result);
+            localStorage.removeItem("token");
+            context.commit("delDataUser");
+          })
+          .catch(error => {
+            reject(error.response);
+          });
+      });
     }
   },
   getters: {

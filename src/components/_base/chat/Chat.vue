@@ -3,7 +3,12 @@
     <b-row v-for="(item, index) in getRooms" :key="index">
       <b-col cols="2">
         <img
-          v-if="item.photo"
+          v-if="item.photo.length < 16"
+          class="default"
+          src="../../../assets/pict_default.jpg"
+        />
+        <img
+          v-else-if="item.photo"
           left
           :src="'http://localhost:3000/profile/' + item.photo"
           alt="photo"
@@ -14,18 +19,21 @@
       </b-col>
       <b-col cols="10" style="width: 200px">
         <h4>{{ item.username }}</h4>
-        <p>online</p>
+        <p v-if="item.status == 'ON'">online</p>
+        <p v-else>offline</p>
       </b-col>
     </b-row>
     <hr />
+    <!-- <p v-if="typing.isTyping" class="mt-2" style="text-align:center">
+      <em v-if="typing.username === this.getUserData.username"
+        >{{ typing.username }} is typing a message...</em
+      >
+    </p> -->
     <b-row>
       <b-col cols="11">
         <div class="chats">
           <div class="chat-window">
             <div class="output" v-for="(item, index) in getMsg" :key="index">
-              <!-- <p>
-                <em> is typing a message...</em>
-              </p> -->
               <div class="left" v-if="item.sender_id == getUserData.user_id">
                 <p>
                   <strong>{{ item.username }}</strong> <br />
@@ -40,8 +48,6 @@
               </div>
             </div>
           </div>
-          <!-- <input class="message" type="text" placeholder="Message" />
-          <button class="send" @click="sendingMessage">Send</button> -->
         </div>
         <b-form-group id="input-group-1" label="" label-for="input-3">
           <b-form-input
@@ -61,57 +67,59 @@
             style="width: 37px; height: 37px"
           />
         </button>
-        <!-- <button><img src="../../../assets/Plus.png" alt="" /></button> -->
       </b-col>
+      <!-- <p>{{ getMsg }}</p> -->
     </b-row>
   </div>
 </template>
 
 <script>
-// import ChatInput from "../../_base/chat/ChatInput";
+import io from "socket.io-client";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import { mapMutations } from "vuex";
 
 export default {
   name: "Chat",
   data() {
     return {
-      message: ""
+      socket: io("http://localhost:3000"),
+      message: "",
+      messagess: []
     };
   },
-  components: {
-    // ChatInput
-  },
-  created() {
-    // this.getRoom(this.getUserData.user_id);
-  },
+  components: {},
+  created() {},
   computed: {
-    ...mapGetters(["getUserData", "getRooms", "getMsg"])
+    ...mapGetters(["getUserData", "getRooms", "getMsg", "msg", "getSend"])
   },
   methods: {
     ...mapActions(["getMessage", "sendMessage"]),
+    ...mapMutations(["setMessage"]),
     sending() {
-      const setMsg = {
-        id_room: this.getRooms[0].id_room,
+      const setData = {
+        username: this.getUserData.username,
         message: this.message,
-        sender_id: this.getUserData.user_id,
-        receiver_id: this.getRooms[0].user_b
+        room: this.getSend.id_room,
+        sender_id: this.getSend.receiver_id,
+        receiver_id: this.getSend.sender_id
       };
+      console.log(setData);
+      this.socket.emit("roomMessage", setData);
+      const setMsg = {
+        id_room: this.getSend.id_room,
+        message: this.message,
+        sender_id: this.getSend.receiver_id,
+        receiver_id: this.getSend.sender_id
+      };
+      console.log(setMsg);
       this.sendMessage(setMsg);
+      this.message = "";
     }
   }
 };
 </script>
 <style>
-/* .chat p {
-  font-family: "Rubik", sans-serif;
-  text-align: center;
-  margin: 35% auto;
-  font-weight: 500 !important;
-  font-size: 15px !important;
-  color: black !important;
-} */
-
 .chat .card-body {
   width: 800px;
 }
@@ -125,7 +133,6 @@ export default {
 
 .chat .row {
   padding-top: 20px;
-  /* margin-right: 0px !important; */
 }
 
 .chat img {
@@ -133,12 +140,6 @@ export default {
   height: 50px;
   border-radius: 10px;
 }
-
-/* .chat .col-9 h4 {
-  text-align: left;
-  font-family: "Rubik", sans-serif;
-  color: cornflowerblue;
-} */
 
 .chats {
   height: 455px;
@@ -205,7 +206,4 @@ export default {
   background: #7e98df;
   border-radius: 10px;
 }
-/* .chat .row {
-  height: 552px;
-} */
 </style>
