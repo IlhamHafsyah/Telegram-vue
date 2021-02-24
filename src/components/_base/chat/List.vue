@@ -125,7 +125,17 @@
             <b-row>
               <b-col cols="12">
                 <div class="name">
-                  <p @click="getMessages(item.id_room, item.user_b)">
+                  <p
+                    @click="
+                      getMessages(
+                        item.id_room,
+                        item.user_b,
+                        item.username,
+                        item.photo,
+                        item.status
+                      )
+                    "
+                  >
                     {{ item.username }}
                   </p>
                 </div></b-col
@@ -316,7 +326,7 @@ export default {
       "getMessage",
       "countNotif"
     ]),
-    ...mapMutations(["setNotif", "addMessage", "setSend"]),
+    ...mapMutations(["setNotif", "addMessage", "setSend", "setHead"]),
 
     checkFormValidity() {
       const valid = this.$refs.form.checkValidity();
@@ -388,7 +398,7 @@ export default {
           return this.$swal("warning", `${error.data.msg}`, "error");
         });
     },
-    getMessages(room, user_b) {
+    getMessages(room, user_b, name, pic, onoff) {
       if (this.oldroom) {
         this.socket.emit("changeRoom", {
           room: room,
@@ -410,6 +420,12 @@ export default {
         receiver_id: this.getUserData.user_id,
         sender_id: user_b
       };
+      const dataHead = {
+        username: name,
+        photo: pic,
+        status: onoff
+      };
+      this.setHead(dataHead);
       this.setSend(dataSend);
       this.getMessage(data);
       this.setNotif(0);

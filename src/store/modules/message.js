@@ -9,11 +9,9 @@ export default {
   mutations: {
     setNotif(state, payload) {
       state.notif = payload;
-      // console.log(state.notif);
     },
     setSend(state, payload) {
       state.send = payload;
-      console.log(state.send.sender_id);
     },
     setMessage(state, payload) {
       state.message = payload;

@@ -3,7 +3,8 @@ import axios from "axios";
 export default {
   state: {
     room: {},
-    userB: ""
+    userB: "",
+    head: {}
   },
   mutations: {
     setRoom(state, payload) {
@@ -11,6 +12,9 @@ export default {
     },
     setUserB(state, payload) {
       state.userB = payload;
+    },
+    setHead(state, payload) {
+      state.head = payload;
     }
   },
   actions: {
@@ -49,6 +53,9 @@ export default {
     },
     getUserB(state) {
       return state.userB;
+    },
+    getHead(state) {
+      return state.head;
     }
   }
 };

@@ -1,16 +1,16 @@
 <template>
   <div class="chat">
-    <b-row v-for="(item, index) in getRooms" :key="index">
+    <b-row>
       <b-col cols="2">
         <img
-          v-if="item.photo.length < 16"
+          v-if="getHead.photo.length < 16"
           class="default"
           src="../../../assets/pict_default.jpg"
         />
         <img
-          v-else-if="item.photo"
+          v-else-if="getHead.photo"
           left
-          :src="'http://localhost:3000/profile/' + item.photo"
+          :src="'http://localhost:3000/profile/' + getHead.photo"
           alt="photo"
         />
         <div v-else>
@@ -18,8 +18,8 @@
         </div>
       </b-col>
       <b-col cols="10" style="width: 200px">
-        <h4>{{ item.username }}</h4>
-        <p v-if="item.status == 'ON'">online</p>
+        <h4>{{ getHead.username }}</h4>
+        <p v-if="getHead.status == 'ON'">online</p>
         <p v-else>offline</p>
       </b-col>
     </b-row>
@@ -39,6 +39,7 @@
                   <strong>{{ item.username }}</strong> <br />
                   {{ item.message }}
                 </p>
+                <!-- <h6>{{ item }}</h6> -->
               </div>
               <div class="right" v-else>
                 <p>
@@ -91,7 +92,14 @@ export default {
   components: {},
   created() {},
   computed: {
-    ...mapGetters(["getUserData", "getRooms", "getMsg", "msg", "getSend"])
+    ...mapGetters([
+      "getUserData",
+      "getRooms",
+      "getMsg",
+      "msg",
+      "getSend",
+      "getHead"
+    ])
   },
   methods: {
     ...mapActions(["getMessage", "sendMessage"]),
