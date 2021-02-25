@@ -7,7 +7,7 @@
     <a href="https://github.com/IlhamHafsyah/Telegram-vue/issues">Request Feature</a>
   </p>
 
-![Image Banner](https://raw.githubusercontent.com/IlhamHafsyah/Telegram-vue/main/telegramBanner.png)
+![Image Banner](https://raw.githubusercontent.com/IlhamHafsyah/Telegram-vue/main/bannerTele.jpg)
 
 ## About The Project
 
@@ -22,7 +22,7 @@ This project was built as a form of response to technological developments, espe
 
 1. <a href="https://nodejs.org/en/download/">Node Js</a>
 2. Node_modules `npm install` or `yarn install`
-3. Backend API #nama_projek [`here`](https://github.com/arkbootcamp/week4-web3-express)
+3. Backend API Telegram App [`here`](https://github.com/IlhamHafsyah/Telegram-Express)
 
 ## Getting Started
 
@@ -32,7 +32,7 @@ This project was built as a form of response to technological developments, espe
 4. Add .env file at root folder project
 
 ```sh
-VUE_APP_ENDPOINT = http://localhost:4001/
+VUE_APP_ENDPOINT = http://localhost:3000/
 ```
 
 5. Type `npm run serve`
