@@ -283,7 +283,13 @@ export default {
   },
   created() {
     this.socket.on("chatMessage", data => {
+      console.log(data);
       this.addMessage(data);
+      if (data.receiver_id == this.getUserData.user_id) {
+        this.$toasted.success("new message! " + data.username, {
+          duration: 10000
+        });
+      }
     });
     this.getRoom(this.getUserData.user_id);
     this.getContact(this.getUserData.user_id);
@@ -298,11 +304,11 @@ export default {
       .catch(error => {
         alert(error);
       });
-    const notData = {
-      receiver_id: this.getUserData.user_id,
-      sender_id: this.getUserB
-    };
-    this.countNotif(notData);
+    // const notData = {
+    //   receiver_id: this.getUserData.user_id,
+    //   sender_id: this.getUserB
+    // };
+    // this.countNotif(notData);
   },
   computed: {
     ...mapGetters([
@@ -551,6 +557,7 @@ button {
   font-family: "Rubik", sans-serif;
   font-weight: bold;
   font-size: 20px;
+  cursor: pointer;
 }
 
 .msg {

@@ -111,7 +111,7 @@ export default {
     ...mapMutations(["setMessage"]),
     sending() {
       let thisTime = moment().format();
-      console.log(thisTime);
+      // console.log(thisTime);
       const setData = {
         username: this.getUserData.username,
         message: this.message,
@@ -120,8 +120,16 @@ export default {
         receiver_id: this.getSend.sender_id,
         created_at: thisTime
       };
-      console.log(setData);
+      // console.log(setData);
       this.socket.emit("roomMessage", setData);
+
+      const sendNotif = {
+        username: this.getUserData.username,
+        room: this.getSend.id_room,
+        notif: true
+      };
+      this.socket.emit("roomMessage", sendNotif);
+
       const setMsg = {
         id_room: this.getSend.id_room,
         message: this.message,
@@ -129,6 +137,7 @@ export default {
         receiver_id: this.getSend.sender_id
       };
       this.sendMessage(setMsg);
+      // this.$toasted.success("Message sent!", { duration: 10000 });
       this.message = "";
     }
   }
