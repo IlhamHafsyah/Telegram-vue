@@ -140,9 +140,8 @@
                   </p>
                 </div></b-col
               >
-              <b-col cols="12"
+              <!-- <b-col cols="12"
                 ><div class="msg">
-                  <!-- <p>{{ item }}</p> -->
                   <p v-if="getMsg.length > 0">
                     {{ getMsg[getMsg.length - 1].message.substring(0, 30) }}...
                   </p>
@@ -154,7 +153,7 @@
               >
                 {{ getNotif }}
               </h6>
-              <h6 v-else></h6>
+              <h6 v-else></h6> -->
             </b-row>
           </b-col>
           <b-sidebar id="sidebar-right" right shadow>
@@ -553,11 +552,12 @@ button {
 
 .name p {
   text-align: left;
-  padding-top: 17px;
+  padding-top: 28px;
   font-family: "Rubik", sans-serif;
   font-weight: bold;
   font-size: 20px;
   cursor: pointer;
+  color: #1b316b;
 }
 
 .msg {

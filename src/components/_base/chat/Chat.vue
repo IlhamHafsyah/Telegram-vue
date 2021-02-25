@@ -120,15 +120,8 @@ export default {
         receiver_id: this.getSend.sender_id,
         created_at: thisTime
       };
-      // console.log(setData);
-      this.socket.emit("roomMessage", setData);
 
-      const sendNotif = {
-        username: this.getUserData.username,
-        room: this.getSend.id_room,
-        notif: true
-      };
-      this.socket.emit("roomMessage", sendNotif);
+      this.socket.emit("roomMessage", setData);
 
       const setMsg = {
         id_room: this.getSend.id_room,
@@ -137,7 +130,7 @@ export default {
         receiver_id: this.getSend.sender_id
       };
       this.sendMessage(setMsg);
-      // this.$toasted.success("Message sent!", { duration: 10000 });
+
       this.message = "";
     }
   }
