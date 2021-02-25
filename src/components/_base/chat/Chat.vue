@@ -39,13 +39,18 @@
                   <strong>{{ item.username }}</strong> <br />
                   {{ item.message }}
                 </p>
-                <!-- <h6>{{ item }}</h6> -->
+                <h6 style="text-align: right; margin-top: -10px">
+                  {{ item.created_at.slice(11, 16) }}
+                </h6>
               </div>
               <div class="right" v-else>
                 <p>
                   <strong>{{ item.username }}</strong> <br />
                   {{ item.message }}
                 </p>
+                <h6 style="text-align: right; margin-top: -10px">
+                  {{ item.created_at.slice(11, 16) }}
+                </h6>
               </div>
             </div>
           </div>
@@ -69,13 +74,13 @@
           />
         </button>
       </b-col>
-      <!-- <p>{{ getMsg }}</p> -->
     </b-row>
   </div>
 </template>
 
 <script>
 import io from "socket.io-client";
+import moment from "moment";
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
 import { mapMutations } from "vuex";
@@ -105,12 +110,15 @@ export default {
     ...mapActions(["getMessage", "sendMessage"]),
     ...mapMutations(["setMessage"]),
     sending() {
+      let thisTime = moment().format();
+      console.log(thisTime);
       const setData = {
         username: this.getUserData.username,
         message: this.message,
         room: this.getSend.id_room,
         sender_id: this.getSend.receiver_id,
-        receiver_id: this.getSend.sender_id
+        receiver_id: this.getSend.sender_id,
+        created_at: thisTime
       };
       console.log(setData);
       this.socket.emit("roomMessage", setData);
@@ -120,7 +128,6 @@ export default {
         sender_id: this.getSend.receiver_id,
         receiver_id: this.getSend.sender_id
       };
-      console.log(setMsg);
       this.sendMessage(setMsg);
       this.message = "";
     }
@@ -198,7 +205,7 @@ export default {
 .chat .chat-window {
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 460px;
+  height: 450px;
 }
 
 .chat-window::-webkit-scrollbar {
