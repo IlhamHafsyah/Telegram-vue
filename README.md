@@ -1,10 +1,10 @@
 <h1 align='center'>Vue JS - #TelegramApp - Vue</h1>
   <p align="center">
-    <a href="link_deploy">View Demo</a>
+    <a href="https://telegramchat.netlify.app/">View Demo</a>
     ·
-    <a href="https://github.com/IlhamHafsyah/Coffee-Brick_Frontend">Report Bug</a>
+    <a href="https://github.com/IlhamHafsyah/Telegram-vue/issues">Report Bug</a>
     ·
-    <a href="https://github.com/IlhamHafsyah/Coffee-Brick_Frontend">Request Feature</a>
+    <a href="https://github.com/IlhamHafsyah/Telegram-vue/issues">Request Feature</a>
   </p>
 
 ![Image Banner](https://raw.githubusercontent.com/IlhamHafsyah/Telegram-vue/main/telegramBanner.png)
