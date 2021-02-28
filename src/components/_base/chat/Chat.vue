@@ -10,7 +10,7 @@
         <img
           v-else-if="getHead.photo"
           left
-          :src="'http://localhost:3000/profile/' + getHead.photo"
+          :src="`https://${URL}/fileUploadsApi2/profile/` + getHead.photo"
           alt="photo"
         />
         <div v-else>
@@ -89,9 +89,10 @@ export default {
   name: "Chat",
   data() {
     return {
-      socket: io("http://localhost:3000"),
+      socket: io(`https://${process.env.VUE_APP_API}`),
       message: "",
-      messagess: []
+      messagess: [],
+      URL: process.env.VUE_APP_API
     };
   },
   components: {},

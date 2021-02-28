@@ -27,7 +27,7 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .get(
-            `${process.env.VUE_APP_API}/message?id_room=${payload.id_room}&receiver_id=${payload.receiver_id}`
+            `https://${process.env.VUE_APP_API}/message?id_room=${payload.id_room}&receiver_id=${payload.receiver_id}`
           )
           .then(result => {
             context.commit("setMessage", result.data.data);
@@ -41,7 +41,7 @@ export default {
     sendMessage(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`${process.env.VUE_APP_API}/message`, payload)
+          .post(`https://${process.env.VUE_APP_API}/message`, payload)
           .then(result => {
             console.log(result);
             resolve(result);
@@ -56,7 +56,7 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .get(
-            `${process.env.VUE_APP_API}/message/countnotif?receiver_id=${payload.receiver_id}&sender_id=${payload.sender_id}`
+            `https://${process.env.VUE_APP_API}/message/countnotif?receiver_id=${payload.receiver_id}&sender_id=${payload.sender_id}`
           )
           .then(result => {
             console.log(result);

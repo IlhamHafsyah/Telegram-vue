@@ -17,7 +17,7 @@ export default {
     getProfile(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`${process.env.VUE_APP_API}/profile/${payload}`)
+          .get(`https://${process.env.VUE_APP_API}/profile/${payload}`)
           .then(result => {
             context.commit("setProfile", result.data.data);
             resolve(result);
@@ -31,7 +31,7 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .patch(
-            `${process.env.VUE_APP_API}/profile/edit/${context.state.id}`,
+            `https://${process.env.VUE_APP_API}/profile/edit/${context.state.id}`,
             payload
           )
           .then(result => {

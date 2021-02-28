@@ -32,7 +32,7 @@
     <img
       v-else-if="getUserProfile[0].photo"
       left
-      :src="'http://localhost:3000/profile/' + getUserProfile[0].photo"
+      :src="`https://${URL}/fileUploadsApi2/profile/` + getUserProfile[0].photo"
       alt="photo"
       style="width: 100px; height: 100px; border-radius: 20px; margin-left: 10px"
     />
@@ -110,7 +110,9 @@ import { mapGetters, mapActions, mapMutations } from "vuex";
 export default {
   name: "userData",
   data() {
-    return {};
+    return {
+      URL: process.env.VUE_APP_API
+    };
   },
   computed: {
     ...mapGetters(["getUserData", "getUserProfile"])

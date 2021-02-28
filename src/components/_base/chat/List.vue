@@ -108,7 +108,7 @@
                 v-else-if="item.photo"
                 v-b-toggle.sidebar-right
                 left
-                :src="'http://localhost:3000/profile/' + item.photo"
+                :src="`https://${URL}/fileUploadsApi2/profile/` + item.photo"
                 alt="photo"
                 style="width: 60px; height: 60px; margin: 12px 12px"
               />
@@ -161,7 +161,7 @@
               <img
                 v-if="item.photo"
                 left
-                :src="'http://localhost:3000/profile/' + item.photo"
+                :src="`https://${URL}/fileUploadsApi2/profile/` + item.photo"
                 style="width: 80px; height: 80px; margin: 12px 12px; border-radius: 20px"
                 alt="photo"
               />
@@ -239,7 +239,7 @@
               <div class="photo">
                 <b-img
                   left
-                  :src="'http://localhost:3000/profile/' + item.photo"
+                  :src="`https://${URL}/fileUploadsApi2/profile/` + item.photo"
                   alt="photo"
                   class="list-photo"
                 ></b-img>
@@ -268,7 +268,9 @@ export default {
   name: "List",
   data() {
     return {
-      socket: io("http://localhost:3000"),
+      socket: io.connect(`https://${process.env.VUE_APP_SOCKET}`, {
+        path: "/api2/socket.io"
+      }),
       name: "",
       nameState: null,
       results: "",
@@ -277,7 +279,8 @@ export default {
       coordinate: {
         lat: -10,
         lng: 110
-      }
+      },
+      URL: process.env.VUE_APP_API
     };
   },
   created() {

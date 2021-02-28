@@ -6,7 +6,7 @@
           <b-card>
             <b-img
               left
-              :src="'http://localhost:3000/profile/' + item.photo"
+              :src="`https://${URL}/fileUploadsApi2/profile/` + item.photo"
               alt="photo"
             ></b-img>
           </b-card>
@@ -36,7 +36,9 @@ import { mapActions } from "vuex";
 export default {
   name: "Card",
   data() {
-    return {};
+    return {
+      URL: process.env.VUE_APP_API
+    };
   },
   created() {
     // this.getRoom(this.getUserData.user_id);

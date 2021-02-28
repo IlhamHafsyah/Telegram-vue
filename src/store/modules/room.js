@@ -22,7 +22,7 @@ export default {
       console.log(payload);
       return new Promise((resolve, reject) => {
         axios
-          .post(`${process.env.VUE_APP_API}/room/joinroom`, payload)
+          .post(`https://${process.env.VUE_APP_API}/room/joinroom`, payload)
           .then(result => {
             console.log(result);
             resolve(result);
@@ -35,7 +35,7 @@ export default {
     getRoom(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`${process.env.VUE_APP_API}/room?user_a=${payload}`)
+          .get(`https://${process.env.VUE_APP_API}/room?user_a=${payload}`)
           .then(result => {
             context.commit("setRoom", result.data.data);
             context.commit("setUserB", result.data.data[0].user_b);

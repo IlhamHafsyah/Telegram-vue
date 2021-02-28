@@ -72,7 +72,9 @@ export default {
   name: "Chat",
   data() {
     return {
-      socket: io("http://localhost:3000"),
+      socket: io.connect(`https://${process.env.VUE_APP_SOCKET}`, {
+        path: "/api2/socket.io"
+      }),
       username: "",
       message: "",
       messages: [],

@@ -13,7 +13,7 @@ export default {
     addContacts(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`${process.env.VUE_APP_API}/friend/add/`, payload)
+          .post(`https://${process.env.VUE_APP_API}/friend/add/`, payload)
           .then(result => {
             resolve(result);
           })
@@ -25,7 +25,7 @@ export default {
     getContact(context, payload) {
       return new Promise((resolve, reject) => {
         axios
-          .get(`${process.env.VUE_APP_API}/friend/${payload}`)
+          .get(`https://${process.env.VUE_APP_API}/friend/${payload}`)
           .then(result => {
             context.commit("setContacts", result.data.data);
             console.log(result);
@@ -40,7 +40,7 @@ export default {
       return new Promise((resolve, reject) => {
         axios
           .delete(
-            `${process.env.VUE_APP_API}/friend?user_id=${payload.user_id}&friend_email=${payload.friend_email}`
+            `https://${process.env.VUE_APP_API}/friend?user_id=${payload.user_id}&friend_email=${payload.friend_email}`
           )
           .then(result => {
             resolve(result);
