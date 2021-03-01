@@ -42,7 +42,8 @@ VUE_APP_ENDPOINT = http://localhost:3000/
 - [Axios](https://www.npmjs.com/package/axios)
 - [Vuex](https://vuex.vuejs.org/)
 - [Socket.io](https://www.npmjs.com/package/socket.io)
-- [Vuex](https://www.npmjs.com/package/vuex)
+- [Vue-Geolocations](https://www.npmjs.com/package/vue-browser-geolocation)
+- [vue2-google-maps](https://www.npmjs.com/package/vue2-google-maps)
 
 ## License
 
