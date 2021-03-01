@@ -41,6 +41,8 @@ VUE_APP_ENDPOINT = http://localhost:3000/
 
 - [Axios](https://www.npmjs.com/package/axios)
 - [Vuex](https://vuex.vuejs.org/)
+- [Socket.io](https://www.npmjs.com/package/socket.io)
+- [Vuex](https://www.npmjs.com/package/vuex)
 
 ## License
 
