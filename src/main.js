@@ -14,6 +14,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 process.env.VUE_APP_API;
+process.env.VUE_APP_SOCKET;
 
 Vue.use(VueGeolocation);
 
